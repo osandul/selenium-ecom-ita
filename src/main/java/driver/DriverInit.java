@@ -1,6 +1,9 @@
 package driver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -8,27 +11,23 @@ import java.util.concurrent.TimeUnit;
 
 public class DriverInit {
 
-    public static WebDriver driver;
+    public WebDriver driver;
 
-
-    public static WebDriver getDriver() {
+    @BeforeEach
+    public void setDriver() {
         if (driver == null) {
-            setDriver();
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
+            driver.manage().window().maximize();
+            driver.get("https://demo.opencart.com");
+            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         }
-        return driver;
     }
 
-    public static void setDriver() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get("https://demo.opencart.com");
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-
-    }
-
+    @AfterEach
     public void closeDriver() {
-        getDriver().quit();
+        if (driver != null)
+            driver.quit();
     }
 
 }

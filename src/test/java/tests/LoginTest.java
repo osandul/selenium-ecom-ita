@@ -1,17 +1,16 @@
 package tests;
 
 import driver.DriverInit;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.assertj.core.api.Assertions;
 
-public class LoginTest {
+public class LoginTest extends DriverInit {
 
-    WebDriver driver = DriverInit.getDriver();
     public String expectedText = "Warning: No match for E-Mail Address and/or Password.";
 
     public WebElement waitForVisibilityOfElement(WebElement locator) {
@@ -30,6 +29,5 @@ public class LoginTest {
                 .findElement(By.xpath("//div[contains(@class, 'alert')]"))).getText();
 
         Assertions.assertThat(actualError).as("error message is different").isEqualTo(expectedText);
-
     }
 }
