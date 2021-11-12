@@ -1,19 +1,16 @@
 package driver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
-
+@Getter
 public class DriverInit {
 
-    public WebDriver driver;
+    private WebDriver driver;
 
-    @BeforeEach
     public void setDriver() {
         if (driver == null) {
             WebDriverManager.chromedriver().setup();
@@ -24,7 +21,6 @@ public class DriverInit {
         }
     }
 
-    @AfterEach
     public void closeDriver() {
         if (driver != null)
             driver.quit();
