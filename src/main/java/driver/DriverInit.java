@@ -22,10 +22,4 @@ public class DriverInit {
         }
         return driver;
     }
-
-    public void closeDriver() {
-        if (driver != null)
-            driver.quit();
-    }
-
 }
