@@ -6,12 +6,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
+
 @Getter
 public class DriverInit {
-
+    @Getter
     private WebDriver driver;
 
-    public void setDriver() {
+    public WebDriver setDriver() {
         if (driver == null) {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
@@ -19,6 +20,7 @@ public class DriverInit {
             driver.get("https://demo.opencart.com");
             driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         }
+        return driver;
     }
 
     public void closeDriver() {
