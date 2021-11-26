@@ -1,13 +1,11 @@
 package hooks;
 
 import driver.DriverInit;
-//import io.cucumber.java.After;
-//import io.cucumber.java.Before;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
 import pages.BasePage;
 
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 
 public class Hook {
     private WebDriver driver;
