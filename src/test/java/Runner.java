@@ -8,10 +8,8 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/",
         glue = {"stepdefinitions", "hooks"},
         plugin = {"json:build/cucumber.json",
-                "html:build/site/cucumber-pretty"},
-        stepNotifications = true,
-        strict = true)
-public class Runner{
+                "html:build/site/cucumber-pretty"})
+public class Runner {
 
 
 }

@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractBasePage {
     @Getter
@@ -31,7 +32,24 @@ public abstract class AbstractBasePage {
 
     public Boolean isElementPresent(By by) {
         return !waitForVisibilityOfElements(driver.findElements(by)).isEmpty();
+    }
 
+    public void implicitlyWait(){
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    }
+
+    public void waitTillScriptIsLoaded(){
+        driver.manage().timeouts().setScriptTimeout(30,  TimeUnit.SECONDS);
+    }
+
+    public void waitTillPageIsLoaded(){
+        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+
+    }
+
+    public void explicitlyWait(String xpath){
+        WebDriverWait wait = new WebDriverWait(driver,40);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
     }
 
 }
