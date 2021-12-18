@@ -10,7 +10,7 @@ import pages.BasePage;
 public class Hook {
     private WebDriver driver;
 
-    @Before
+    @Before("@ui")
     public void getDriver() {
         driver = new DriverInit().setDriver();
         BasePage.setDriver(driver);

@@ -1,62 +1,39 @@
 package rest;
 
-import io.restassured.http.ContentType;
-import io.restassured.http.Header;
+
 import io.restassured.response.Response;
 import rest.dto.CreatedBoardDto;
-
-import java.util.HashMap;
-import java.util.Map;
+import rest.requestSpecifications.RequestSpecifications;
 
 import static io.restassured.RestAssured.given;
 
 public class TrelloRestClient {
 
     private String id;
-    String boardManagementUrl = "https://api.trello.com/1/boards/";
-    Header header = new Header("Content-Type", "application/json");
+   static final String CREATE_BOARD_ENDPOINT = "/1/boards/";
 
-    public void sendCreateBoardRequest() {
-        Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("name", "B20Board");
-        queryParams.put("key", "ad7e2fb85d583015a2e883e97a0a6752");
-        queryParams.put("token", "72815be243734e14c107ba025aa4c93d1d4948238a974b0dd0a3b36a7967b22c");
+    public void sendCreateBoardRequest(String name) {
 
-        Response response =  given()
-                .contentType(ContentType.JSON)
-                .header(header)
-                .queryParams(queryParams)
+        Response response = given().spec(RequestSpecifications.basicSpec)
                 .log().all()
-                .post(boardManagementUrl)
+                .post(CREATE_BOARD_ENDPOINT +"?name="+name)
                 .then().statusCode(200)
                 .and().extract().response();
 
-        CreatedBoardDto createdBoard = response.as(CreatedBoardDto.class);
-        id = createdBoard.getId();
+        id = response.as(CreatedBoardDto.class).getId();
     }
 
     public void sendDeleteBoardRequest() {
-        Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("key", "ad7e2fb85d583015a2e883e97a0a6752");
-        queryParams.put("token", "72815be243734e14c107ba025aa4c93d1d4948238a974b0dd0a3b36a7967b22c");
-
-        given()
-                .header(header)
-                .queryParams(queryParams)
+        given().spec(RequestSpecifications.basicSpec)
                 .log().all()
-                .delete(boardManagementUrl + id)
+                .delete(CREATE_BOARD_ENDPOINT + id)
                 .then().statusCode(200);
     }
 
-    public void sendGetBoardRequest(int statusCode){
-        Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("key", "ad7e2fb85d583015a2e883e97a0a6752");
-        queryParams.put("token", "72815be243734e14c107ba025aa4c93d1d4948238a974b0dd0a3b36a7967b22c");
-        given()
-                .header(header)
-                .queryParams(queryParams)
+    public void sendGetBoardRequest(int statusCode) {
+        given().spec(RequestSpecifications.basicSpec)
                 .log().all()
-                .get(boardManagementUrl + id)
+                .get(CREATE_BOARD_ENDPOINT + id)
                 .then().statusCode(statusCode);
     }
 }

@@ -3,15 +3,17 @@ Feature: Login page
   I want to register to the system with my credentials
   So that I can have access to store
 
+  @ui
   Scenario: Property File check
     Given User is logged in on Login Page
 
-    @smoke
+  @ui
   Scenario: Error message about unsuccessful login with invalid credentials is displayed
     Given Login page is opened in header dropdown
     And I click OK button on Login page
     Then Error popup with message 'Warning: No match for E-Mail Address and/or Password.' is displayed
 
+  @ui
   Scenario:[PARAMS] My Account page is displayed after successful login
     Given Login page is opened in header dropdown
     When I enter in the field 'email' data 'sajowi9588@epeva.com' on Login page
@@ -19,6 +21,7 @@ Feature: Login page
     And I click 'Login' button on Login page
     Then My Account page is displayed
 
+  @ui
   Scenario:[ENUM] My Account page is displayed after successful login
     Given Login page is opened in header dropdown
     When I enter in the enum field EMAIL_INPUT_FIELD data 'hdvjsvdj@gmail' on Login page
@@ -26,6 +29,7 @@ Feature: Login page
     And I click 'Login' button on Login page
     Then My Account page is displayed
 
+  @ui
   Scenario:[DATA TABLE] My Account page is displayed after successful login
     Given Login page is opened in header dropdown
     When I enter text into field on Login Page:
