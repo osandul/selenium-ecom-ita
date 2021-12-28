@@ -12,26 +12,21 @@ import org.assertj.core.api.Assertions;
 
 import pages.LoginPage;
 import properties.PropertyLoader;
-
-
 import java.util.Map;
 
-@Log4j
+
 public class LoginStepdefs {
     private static final LoginPage loginPage = new LoginPage();
 
     @Given("Login page is opened in header dropdown")
     public void accountPageIsOpenedInHeaderDropdown() {
         loginPage.headerComponent().clickAccountDropdown();
-        log.info("Account dropdown is opening");
         loginPage.headerComponent().clickLoginFromDropdown();
-        log.info("Login page is opening");
     }
 
     @And("I click OK button on Login page")
     public void iClickOKButtonOnLoginPage() {
         loginPage.clickSubmitButton();
-        log.info("Click submit button");
     }
 
     @Then("Store page is displayed")
@@ -77,22 +72,17 @@ public class LoginStepdefs {
     @Given("User is logged in on Login Page")
     public void userIsLoggedIn() {
         loginPage.headerComponent().clickAccountDropdown();
-        log.info("Account dropdown is opening");
         loginPage.headerComponent().clickLoginFromDropdown();
-        log.info("Login page is opening");
         loginPage.clickSubmitButton();
-        log.info("Click submit button");
         String email = PropertyLoader.getProperty("USER_EMAIL");
         String password = PropertyLoader.getProperty("USER_PASSWORD");
 
-        log.info(String.format("Entering email %s", email));
-
         loginPage.inputDataToInputField(LoginPageInputField.EMAIL_INPUT_FIELD.toString(), email);
-        log.info(String.format("Entering password %s", password));
+
         loginPage.inputDataToInputField(LoginPageInputField.PASSWORD_INPUT_FIELD.toString(), password);
-        log.info("Click submit button");
+
         loginPage.clickSubmitButton();
-        log.info("Click submit button");
+
     }
 
 }

@@ -11,44 +11,48 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractBasePage {
-    @Getter
-    private static WebDriver driver;
 
-    public static void setDriver(WebDriver webDriver) {
-        driver = webDriver;
+    private static final ThreadLocal<WebDriver> DRIVER_THREAD_LOCAL = new ThreadLocal<>();
+
+    public static void setDriverThreadLocal(WebDriver webDriver){
+        DRIVER_THREAD_LOCAL.set(webDriver);
+    }
+
+    public static WebDriver getDriverThreadLocal(){
+        return DRIVER_THREAD_LOCAL.get();
     }
 
     public WebElement waitForVisibilityOfElement(WebElement locator) {
-        return new WebDriverWait(driver, 200).until(ExpectedConditions.visibilityOf(locator));
+        return new WebDriverWait(getDriverThreadLocal(), 200).until(ExpectedConditions.visibilityOf(locator));
     }
 
     public WebElement findElementBy(By by) {
-        return waitForVisibilityOfElement(driver.findElement(by));
+        return waitForVisibilityOfElement(getDriverThreadLocal().findElement(by));
     }
 
     public List<WebElement> waitForVisibilityOfElements(List<WebElement> locators) {
-        return new WebDriverWait(driver, 200).until(ExpectedConditions.visibilityOfAllElements(locators));
+        return new WebDriverWait(getDriverThreadLocal(), 200).until(ExpectedConditions.visibilityOfAllElements(locators));
     }
 
     public Boolean isElementPresent(By by) {
-        return !waitForVisibilityOfElements(driver.findElements(by)).isEmpty();
+        return !waitForVisibilityOfElements(getDriverThreadLocal().findElements(by)).isEmpty();
     }
 
     public void implicitlyWait(){
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        getDriverThreadLocal().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     public void waitTillScriptIsLoaded(){
-        driver.manage().timeouts().setScriptTimeout(30,  TimeUnit.SECONDS);
+        getDriverThreadLocal().manage().timeouts().setScriptTimeout(30,  TimeUnit.SECONDS);
     }
 
     public void waitTillPageIsLoaded(){
-        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+        getDriverThreadLocal().manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
 
     }
 
     public void explicitlyWait(String xpath){
-        WebDriverWait wait = new WebDriverWait(driver,40);
+        WebDriverWait wait = new WebDriverWait(getDriverThreadLocal(),40);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
     }
 
